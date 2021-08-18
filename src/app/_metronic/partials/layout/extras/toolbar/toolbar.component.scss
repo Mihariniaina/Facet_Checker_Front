@@ -1,0 +1,86 @@
+.btn.btn-icon-primary i {
+  color: #8a24ddc7;
+}
+.btn.btn-link-primary:not(:disabled):not(.disabled):active:not(.btn-text).dropdown-toggle:after, .btn.btn-link-primary:not(:disabled):not(.disabled).active.dropdown-toggle:after, .show > .btn.btn-link-primary.dropdown-toggle.dropdown-toggle:after, .show .btn.btn-link-primary.btn-dropdown.dropdown-toggle:after {
+  color: #8a24ddc7;
+}
+.btn.btn-hover-primary:hover:not(.btn-text):not(:disabled):not(.disabled), .btn.btn-hover-primary:focus:not(.btn-text), .btn.btn-hover-primary.focus:not(.btn-text) {
+  color: #FFFFFF !important;
+  background-color: #8a24ddc7 !important;
+  border-color: #8a24ddc7 !important;
+}
+::ng-deep.mat-menu-panel {
+  //max-width: none !important;
+  margin-top: -32px;
+}
+/*::ng-deep .cdk-overlay-connected-position-bounding-box {
+  margin-right: 4%;
+  margin-top:-4%;
+}*/
+
+::ng-deep.menu-panel-settings {
+  position: relative;
+  bottom: 4.5em;
+}
+
+.menu {
+  width: 300px!important;
+  height: 300px!important;
+  .general-title {
+    height: 12%;
+    h1 {
+      margin-left: 5%;
+      color: #282828;
+      font-weight: bold;
+      font-size: 1.5em;
+    }
+  }
+  .menu-settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 88%;
+    .settings-option {
+      width: 90% !important;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+.menu li{
+  list-style: none;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+}
+.menu li:not(:first-child){
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.menu li a {
+  font-size: 14px;
+  display: inline-block;
+  text-decoration: none;
+  color: #555!important;
+  font-weight: 500;
+  transition: 0.05s;
+}
+
+::ng-deep.mat-menu-content {
+  padding-top: 0px!important;
+  padding-bottom: 0px!important;
+}
+
+::ng-deep.mat-menu-panel.menu-panel-notif {
+  margin-top: 30px!important;
+}
+.cdk-overlay-connected-position-bounding-box{
+  top: 296.625px; //296.625px 210.045
+    right: 59.37498px;
+    height: 420.955px;
+    width: 1021.63px;
+    align-items: flex-end;
+    justify-content: flex-start;
+}

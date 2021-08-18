@@ -1,0 +1,48 @@
+<div fxLayout="column" class="w-100">
+    <div mat-dialog-content cdkDropListGroupd fxLayout="row" fxLayoutAlign="space-evenly start">
+        <div class="container-box" class="w-50 h-100">
+            <h2>{{'LPValidatorStep23.AvailableColumns' | translate}}</h2>
+            <div class="table-columns">
+                <div cdkDropList #hiddenList="cdkDropList" [cdkDropListData]="hidden" [cdkDropListConnectedTo]="[noHiddenList]" (cdkDropListDropped)="drop($event) " class="containt-list">
+                    <div *ngFor="let item of hidden">
+                        <div *ngIf="!item?.includes('Value')" class="box" [ngClass]="{'setItem': selectedItems.includes(item)}" cdkDrag (click)="setClickedItem(item, hidden)">
+                            {{ item.split('_').join(' ') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div fxLayout="column" style="margin: auto 4em;">
+            <button [disabled]="btnToRigth" (click)="moveToRigth()" type="button" mat-raised-button class="m-1">
+                {{'LPValidatorStep23.Display' | translate}}
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+            <button [disabled]="btnToLeft" (click)="moveToLeft()" type="button" mat-raised-button class="m-1">
+                {{'LPValidatorStep23.Hide' | translate}}
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>
+            <mat-checkbox color="accent">
+                {{'LPValidatorStep23.HidePropertiesLabels' | translate}}
+            </mat-checkbox>
+        </div>
+
+        <div class="container-box" class="w-50 h-100">
+            <h2>{{'LPValidatorStep23.TableColumns' | translate}}</h2>
+           <!--  && !item.includes('ID') -->
+            <div class="table-columns">
+                <div cdkDropList #noHiddenList="cdkDropList" [cdkDropListData]="noHidden" [cdkDropListConnectedTo]="[hiddenList]" [cdkDropListEnterPredicate]="canDrop" (cdkDropListDropped)="drop($event)" class="containt-list">
+                    <div *ngFor="let item of noHidden">
+                        <div *ngIf="!item?.includes('Value')" class="box" cdkDrag (click)="setClickedItem(item, noHidden)" [ngClass]="{'setItem': selectedItems.includes(item)}">
+                            {{ item.split('_').join(' ') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions align='center'>
+        <button (click)="onClick()" mat-raised-button
+        color="accent" tabindex="-1">{{'LPValidatorStep23.Close' | translate}}</button>
+    </div>
+</div>

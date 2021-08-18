@@ -1,0 +1,42 @@
+::ng-deep #formTable {
+  padding: 0 !important;
+  height: 4vh;
+  margin: 0 !important;
+}
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 1em 0 1em 0 !important;
+}
+
+  // ::ng-deep.mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix {
+  //   /* top: .25em; */
+  //   padding: 1.5em 0 .5em;
+  // }
+.datatable:not(.table) {
+    display: revert;
+  }
+  .drag_n_drop {
+   cursor: cell !important;
+  }
+
+::ng-deep {
+    circle.ng-star-inserted {
+        stroke-dasharray: 20px !important;
+        stroke-width: 7% !important;
+    }
+}
+
+div.middle{
+  text-align: center;
+}
+
+.Test {
+  position: absolute;
+  visibility: hidden;
+  height: auto;
+  width: auto;
+  white-space: nowrap; /* Thanks to Herb Caudill comment */
+}
+.active {
+  background: #b6e1ff !important;
+}
+

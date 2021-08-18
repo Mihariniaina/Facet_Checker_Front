@@ -1,0 +1,35 @@
+:host {
+  ::ng-deep {
+    .loading-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+
+      .progress-bar {
+        // brand color
+        background-color: #5d78ff;
+      }
+    }
+
+    .topbar-item {
+      height: 100%;
+    }
+
+    @media (min-width: 1025px) {
+      .topbar,
+      .topbar-item-wrapper {
+        height: 100%;
+      }
+    }
+
+    .shad {
+      -webkit-box-shadow: 0 10px 30px 0 rgba(82,63,105,.08)!important;
+      box-shadow: 0 10px 30px 0 rgba(82,63,105,.08)!important;
+      -webkit-transition: top .3s ease!important;
+      transition: top .3s ease!important;
+      z-index: 95!important;
+    }
+  }
+}

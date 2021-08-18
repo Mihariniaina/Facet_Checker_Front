@@ -1,0 +1,68 @@
+<!--begin::Sticky Toolbar-->
+
+<ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
+
+  <ng-container>
+
+    <li class="nav-item mb-2" data-toggle="modal" data-target="#exampleModal" title="Layout Builder"
+      data-placement="left">
+      <a class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" target="_blank"
+        [ngClass]="z.menuOpen ? 'activate':'inActivate'" #z="matMenuTrigger"
+        [matMenuTriggerFor]="clickmenu">
+        <i class="flaticon2-gear text-info"></i>
+      </a>
+      <mat-menu #clickmenu="matMenu" class="myMenu menu-panel-settings mx-2 py-3">
+        <a (click)="$event.stopPropagation()">
+          <div class="menu">
+
+            <div class="general-title">
+              <h1>{{'GeneralSettings.GeneralSettings' | translate}}</h1>
+            </div>
+
+            <div class="menu-settings w-100">
+              <div class="settings-option pr-4 pl-3 py-3 mb-1" fxLayout="row" fxLayoutAlign="space-between center">
+                <mat-slide-toggle class="toggle" [(ngModel)]="toggleChecked" (change)="changed($event)">
+                  <h4 class="text-dark font-weight-boldest mb-0">{{'GeneralSettings.HeadColor' | translate}}</h4>
+                </mat-slide-toggle>
+              </div>
+              <div class="settings-option pr-4 pl-3 py-3 mb-1" fxLayout="row" fxLayoutAlign="space-between center">
+                <mat-slide-toggle class="toggle" [(ngModel)]="toggleChecked2"
+                                  (change)="changed2($event)">
+                  <h4 class="text-dark font-weight-boldest mb-0">
+                    {{'GeneralSettings.RowColor' | translate}}
+                  </h4>
+                </mat-slide-toggle>
+              </div>
+              <div class="settings-option pr-4 pl-3 py-3 mb-1" fxLayout="row" fxLayoutAlign="space-between center">
+                <mat-slide-toggle class="toggle" [(ngModel)]="toggleChecked3" (change)="changed3($event)">
+                  <h4 class="text-dark font-weight-boldest mb-0">
+                    {{'GeneralSettings.Pagination' | translate}}
+                  </h4>
+                </mat-slide-toggle>
+              </div>
+              <div class="settings-option pr-4 pl-3 py-3" fxLayout="row" fxLayoutAlign="space-between center">
+                <mat-slide-toggle class="toggle" [(ngModel)]="toggleChecked4" (change)="changed4($event)">
+                  <h4 class="text-dark font-weight-boldest mb-0">
+                    {{'GeneralSettings.Filter' | translate}}
+                  </h4>
+                </mat-slide-toggle>
+              </div>
+            </div>
+
+          </div>
+        </a>
+      </mat-menu>
+    </li>
+    <!--end::Item-->
+
+    <!--begin::Item-->
+    <li class="nav-item mb-2" data-toggle="tooltip" title="Documentation" data-placement="left">
+      <a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" href=""
+        target="_blank">
+        <i class="flaticon2-telegram-logo"></i>
+      </a>
+    </li>
+  </ng-container>
+  <!--end::Item-->
+</ul>
+<!--end::Sticky Toolbar-->

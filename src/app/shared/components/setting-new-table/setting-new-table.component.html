@@ -1,0 +1,15 @@
+<div mat-dialog-content>
+<div fxLayout="column" fxFlexAlign="start">
+
+    <div class="w-100 pr-4 pl-3 py-4" fxLayout="row" fxLayoutAlign="space-between center">
+        <h2 class="text-dark font-weight-boldest mb-0">Settings tables</h2>
+        <section class="example-section">
+            <mat-slide-toggle class="toggle"  [(ngModel)]="data.toggleChecked"
+            (change)="changed($event)">Color Header</mat-slide-toggle>
+          </section>
+    </div> </div>
+    <div mat-dialog-actions align='center'>
+        <button mat-raised-button color="accent" [mat-dialog-close]="data.toggleChecked" tabindex="-1">CLOSE</button>
+    </div>
+</div>
+

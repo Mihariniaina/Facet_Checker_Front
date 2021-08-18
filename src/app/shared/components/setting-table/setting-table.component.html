@@ -1,0 +1,50 @@
+<div fxLayout="column" >
+    <div mat-dialog-content>
+    <div class="w-100 pr-4 pl-3 py-4" fxLayout="row" fxLayoutAlign="space-between center">
+        <h2 class="text-dark font-weight-boldest mb-0">Settings tables</h2>
+    </div>
+ <!--
+        <section class="example-section">
+            <mat-checkbox
+                [(ngModel)]="checked"
+                (click)="onChecked(checked)"
+                labelPosition="before">
+             select / unselect all
+            </mat-checkbox>
+          </section>
+    </div>
+-->
+ <!--
+    <div mat-dialog-content>
+        <!-- <div *ngFor="let facet of facetLists; let i = index"> -->
+ <!--        <mat-selection-list #items color="accent" *ngFor="let facet of facetLists; let i = index">
+            <mat-list-option #item [selected]="facet && selectedOptions?.includes(facet)" (click)="onNgModelChange(facet)">
+                {{ facet.split('_').join(' ') }}
+            </mat-list-option>
+        </mat-selection-list>   -->
+        <!-- items.selectedOptions.selected.length > 6 && item.selected === false &&  && !item.selected  i < 5 -->
+        <!-- </div>  selectedOptions.length > 4 &&   onChecked(facet) && [disabled]="onChecked(facet) && !item.selected"
+    </div>
+-->
+    <section class="example-section">
+        <mat-card>
+            <div>
+            <mat-slide-toggle [(ngModel)]="checked" (change)="slideToAlternance($event)" labelPosition="before">
+                Alternance de Couleur
+            </mat-slide-toggle>
+        </div>
+        <div>
+            <mat-slide-toggle [(ngModel)]="checkedGMK" (change)="slideToGMK($event)" labelPosition="before">
+                Pagination with GMK
+            </mat-slide-toggle>
+        </div>
+        </mat-card>
+    </section>
+
+
+    <div mat-dialog-actions align='center'>
+        <button mat-raised-button (click)="onClick()" tabindex="-1">CLOSE</button>
+    </div>
+
+
+</div>

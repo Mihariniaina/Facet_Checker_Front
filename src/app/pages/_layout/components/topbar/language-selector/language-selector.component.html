@@ -1,0 +1,39 @@
+<!--<button mat-button [matMenuTriggerFor]="menu">
+  <div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
+    <img
+      class="h-25px w-25px rounded"
+      src="{{ language?.flag }}"
+      alt="language"
+    />
+  </div>
+</button>-->
+<li class="nav-item nav-item-topbar">
+  <a class="nav-link nav-link-topbar"
+     role="button" [matMenuTriggerFor]="menu">
+    <img
+      class="rounded"
+      src="{{ language?.flag }}"
+      alt="language"
+      style="height: 18px; width: 18px"
+    />
+  </a>
+</li>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item *ngFor=" let lang of languages"
+          (click)="updateLanguage(lang.lang)">
+    <img class="rounded flag-list" src="{{ lang.flag }}"/>
+    <span>  {{lang.name}}</span>
+  </button>
+</mat-menu>
+
+
+<!--<select class="form-control"
+        >
+  <option *ngFor=" let lang of languages" value="{{lang}}"
+        (click)="test2(lang.lang)">
+        <span class="symbol symbol-20 mr-3">
+          {{ lang.name }}
+              <img src="{{ lang.flag }}" />
+        </span>
+  </option>
+</select>-->

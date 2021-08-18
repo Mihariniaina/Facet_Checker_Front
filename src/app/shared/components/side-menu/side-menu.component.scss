@@ -1,0 +1,27 @@
+.sidenav_container {
+    min-width: 60px;
+    height: calc(100vh - 200px);
+    // height: 100%;
+}
+
+.jim {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+// ::ng-deep .mat-expansion-panel-body {
+//     padding: 0 0 16px !important;
+// }
+.displayName {
+    padding: 0 16px !important;
+}
+
+.display-width {
+    width: 62px !important;
+}
+
+::ng-deep div.mat-expansion-panel-body {
+    padding: 0 8px 16px !important;
+}

@@ -1,0 +1,84 @@
+.card-project {
+    padding: 0!important;
+}
+.list-project:not(:last-child) {
+    padding: 0.8rem 2rem !important;
+    border-bottom: 1px solid #F3F3F3;
+    width: 300px;
+}
+.show-all {
+    margin-top: 12px;
+    text-align: center;
+    color: #6382D7;
+    font-size: 14px;
+    font-weight: 500;
+    border: none!important;
+    outline: none!important;
+}
+.font-project {
+    color: #4D4D55!important;
+    font-weight: 700;
+    font-size: 14px;
+}
+.list-project .text-muted {
+    color: #b5b5c3!important;
+}
+::ng-deep.mat-menu-panel.dropdown-project {
+    max-width: none !important;
+    margin-top: 13px!important;
+}
+.font-project:hover{
+    color: #4D4D55!important;
+}
+.list-project:hover{
+    cursor: pointer;
+}
+.show-all:hover {
+    cursor: pointer;
+}
+
+.letter {
+display: flex;
+  width: 50px;
+  height: 50px;
+align-items: center;
+  font-size: 35px;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 15%;
+}
+
+.project-link:hover, .project-link:focus {
+    text-decoration: none;
+    background: rgba(0,0,0,0.05);
+    border-radius: 5px;
+}
+
+.position-center {
+    display: flex;
+    align-items: center;
+    padding: 15px 14px;
+}
+
+.project-link {
+    color: #4D4D55;
+}
+
+.text-style {
+    color: #4D4D55;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.project-link i {
+    margin: 2px 0 0 5px;
+}
+
+::ng-deep .active{
+    background: rgba(0,0,0,0.05);
+    border-radius: 5px;
+}
+   
+::ng-deep .inActive{
+    background: transparent;
+}

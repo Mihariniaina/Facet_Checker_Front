@@ -1,0 +1,159 @@
+<nav class="navbar navbar-expand navbar-light my-navbar" style="box-shadow: none;">
+    <ul class="navbar-nav ml-auto">
+
+        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+        <li class="nav-item dropdown  d-sm-none">
+
+          <!-- Dropdown - Messages -->
+          <div class="dropdown-menu dropdown-menu-right p-3">
+            <form class="form-inline mr-auto w-100 navbar-search">
+              <div class="input-group">
+                <input type="text" class="form-control bg-light border-0 small"
+                placeholder="Search for..." >
+                <div class="input-group-append">
+                  <button class="btn btn-primary" type="button">
+                    <i class="fas fa-search fa-sm"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </li>
+
+        <!-- Nav Item - Alerts -->
+       <!-- <li class="nav-item dropdown">
+                        <a class="nav-icon dropdown" href="#" id="alertsDropdown" data-toggle="dropdown" aria-expanded="false">
+                            <div class="position-relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell align-middle"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                                <span class="indicator">4</span>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="alertsDropdown">
+                            <div class="dropdown-menu-header">
+                                4 New Notifications
+                            </div>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle text-danger"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="text-dark">Update completed</div>
+                                            <div class="text-muted small mt-1">Restart server 12 to complete the update.</div>
+                                            <div class="text-muted small mt-1">30m ago</div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                            </div>
+                            <div class="dropdown-menu-footer">
+                                <a href="#" class="text-muted">Show all notifications</a>
+                            </div>
+                        </div>
+                    </li> -->
+        <!-- Nav Item - Messages -->
+        <li class="nav-item nav-item-topbar">
+            <a class="nav-link nav-link-topbar" data-title="{{'TopBarTitle.Help' | translate}}"
+           role="button">
+           <i class="far fa-life-ring size-icon"></i>
+              <!-- Counter - Messages -->
+              <!-- <span class="badge badge-danger badge-counter">7</span> -->
+            </a>
+          </li>
+          <!-- Nav Item - Messages -->
+        <li class="nav-item nav-item-topbar">
+            <a class="nav-link nav-link-topbar" data-title="{{'TopBarTitle.Chat' | translate}}"
+           role="button">
+           <i class="fas fa-comments size-icon"></i>
+              <!-- Counter - Messages -->
+              <!-- <span class="badge badge-danger badge-counter">7</span> -->
+            </a>
+          </li>
+        <!-- Nav Item - Messages -->
+
+        <app-language-selector></app-language-selector>
+
+        <li class="nav-item nav-item-topbar">
+          <a class="nav-link nav-link-topbar" data-title="{{'TopBarTitle.Notifications' | translate}}"
+         role="button" [ngClass]="n.menuOpen ? 'activateNotif':'inActivateNotif'" #n="matMenuTrigger" [matMenuTriggerFor]="clicknotif">
+         <i class="fas fa-bell size-icon" (click)="updatePipe()"></i>
+            <!-- Counter - Messages -->
+            <span class="indicator notif"></span>
+            <!-- <i class="symbol-badge bg-success"></i> -->
+            <!-- <span class="badge badge-danger badge-counter">7</span> -->
+          </a>
+        </li>
+        <mat-menu #clicknotif="matMenu" xPosition="before" class="menu-panel-notif">
+          <div class="menu-notif" >
+            <p *ngIf="!notifications.topBarNotifications.length">{{'TopBarTitle.NoNotifs' | translate}}</p>
+            <div class="notif-top" *ngIf="notifications.topBarNotifications.length">
+              <span style="text-align: left; padding-left: 1em">Notifications : {{notifications.topBarNotifications.length}}</span>
+              <span style="text-align: right; padding-right: 1em; color: #3B85FE"
+                    (click)="clearAll()" role="button">{{'Notification.Clear' | translate}}</span>
+            </div>
+            <div *ngFor="let notif of notifications.topBarNotifications" class="notifs-container"
+                  (click)="$event.stopPropagation()">
+              <div class="notif-img">
+                <img [src]="notif.image_notification">
+              </div>
+              <div class="notif-text">
+                <h1>{{notif.title_notification | translate}}</h1>
+                <div>
+                  <span>{{notif.message_notification | translate}}</span>
+                </div>
+                <div class="notif-date">
+                  <span>{{'Notification.IlYA' | translate}}{{notif.date_notification | dateAgo: update}}{{'Notification.Ago' | translate}}</span>
+                </div>
+              </div>
+              <div class="notif-close">
+                <i class="fas fa-times" (click)="removeNotification(notif)"></i>
+              </div>
+            </div>
+
+          </div>
+      </mat-menu>
+        <div class="divider"></div>
+
+        <!-- Nav Item - User Information -->
+        <ng-container *ngIf="user">
+            <li class="nav-item dropdown nav-item-dropdown-topbar">
+            <a class="nav-link dropdown-toggle dropdown-topbar" id="userDropdown" role="button" data-toggle="dropdown" [ngClass]="z.menuOpen ? 'activate':'inActivate'" #z="matMenuTrigger" [matMenuTriggerFor]="clickmenu">
+                <span class="mr-2 d-none d-lg-inline text-black-600 text-fullname">{{ (user | async).firstname }} {{ (user | async).lastname }}</span>
+                <i class="fas fa-chevron-down marge-top"></i>
+                <img class="img-profile rounded-circle" [src]="pdp">
+            </a>
+              <mat-menu #clickmenu="matMenu" xPosition="before">
+                <div class="menu">
+                    <li mat-menu-item [routerLink]="'/user-space/profile'" >
+                      <img [src]="'./assets/images/top_bar/user.png'" alt=".">
+                      <a>{{'TopBarTitle.MyProfile' | translate}}</a>
+                  </li>
+                  <li mat-menu-item>
+                      <img [src]="'./assets/images/top_bar/edit.png'" alt=".">
+                      <a>{{'TopBarTitle.EditProfile' | translate}}</a>
+                  </li>
+                  <li mat-menu-item>
+                      <img [src]="'./assets/images/top_bar/envelope.png'" alt=".">
+                      <a>{{'TopBarTitle.Inbox' | translate}}</a>
+                  </li>
+                  <li mat-menu-item>
+                      <img [src]="'./assets/images/top_bar/settings.png'" alt=".">
+                      <a>{{'TopBarTitle.Settings' | translate}}</a>
+                  </li>
+                  <li mat-menu-item>
+                      <img [src]="'./assets/images/top_bar/question.png'" alt=".">
+                      <a>{{'TopBarTitle.Help' | translate}}</a>
+                  </li>
+                  <li mat-menu-item (click)="logout()">
+                      <img [src]="'./assets/images/top_bar/log-out.png'" alt=".">
+                      <a>{{'TopBarTitle.Logout' | translate}}</a>
+                  </li>
+                </div>
+            </mat-menu>
+            <!-- <app-user-dropdown></app-user-dropdown> -->
+            </li>
+        </ng-container>
+
+      </ul>
+    </nav>

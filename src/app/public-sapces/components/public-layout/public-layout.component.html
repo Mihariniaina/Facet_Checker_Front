@@ -1,0 +1,59 @@
+<div class="h-100">
+    <mat-drawer-container class="h-100" autosize class="sidenav-container">
+        <mat-drawer #leftSidenav mode="side" opened>
+            <!-- <app-side-menu></app-side-menu> -->
+        </mat-drawer>
+        <mat-drawer-content>
+            <div class="main_content">
+                <mat-toolbar class="app-header px-4" [style.background]="'white'" fxFlex="row" fxLayoutAlign="center center" fxLayoutGap="10px" class="header">
+                    <button mat-icon-button aria-label="menu icon" (click)="leftSidenav.toggle();">
+                                <mat-icon>menu</mat-icon>
+                            </button>
+                    <a [routerLink]="['/user-space']">
+                        <img alt="Logo" height="20" [src]="'./assets/images/logo.png'" />
+                    </a>
+                    <div class="spacer"></div>
+                    <ng-template #loginTemplete>
+                        <button mat-stroked-button [routerLink]="['/sign-in']" class="mx-3">Sign in</button>
+                    </ng-template>
+                    <ng-template #logoutTemplete>
+                        <button mat-stroked-button (click)="auth.logout()" class="mx-3">Sing up</button>
+                    </ng-template>
+
+                    <ng-container *ngTemplateOutlet="!auth.currentUserSubject?.value ? loginTemplete : logoutTemplete">
+                    </ng-container>
+                </mat-toolbar>
+            </div>
+
+
+            <div class="m-auto w-25">
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus, repudiandae quia. Veniam amet fuga, eveniet velit ipsa repudiandae nemo? Sit dolorem itaque laudantium dignissimos, rerum maiores nihil ad voluptates nostrum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus, repudiandae quia. Veniam amet fuga, eveniet velit ipsa repudiandae nemo? Sit dolorem itaque laudantium dignissimos, rerum maiores nihil ad voluptates nostrum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus, repudiandae quia. Veniam amet fuga, eveniet velit ipsa repudiandae nemo? Sit dolorem itaque laudantium dignissimos, rerum maiores nihil ad voluptates nostrum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus, repudiandae quia. Veniam amet fuga, eveniet velit ipsa repudiandae nemo? Sit dolorem itaque laudantium dignissimos, rerum maiores nihil ad voluptates nostrum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus, repudiandae quia. Veniam amet fuga, eveniet velit ipsa repudiandae nemo? Sit dolorem itaque laudantium dignissimos, rerum maiores nihil ad voluptates nostrum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus, repudiandae quia. Veniam amet fuga, eveniet velit ipsa repudiandae nemo? Sit dolorem itaque laudantium dignissimos, rerum maiores nihil ad voluptates nostrum.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus, repudiandae quia. Veniam amet fuga, eveniet velit ipsa repudiandae nemo? Sit dolorem itaque laudantium dignissimos, rerum maiores nihil ad voluptates nostrum.
+                </p>
+
+                <div class="scroll-top" *ngIf="isShow" (click)="gotoTop()">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Up-2.svg'" cacheSVG="true" class="svg-icon"></span>
+                </div>
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
+
+</div>

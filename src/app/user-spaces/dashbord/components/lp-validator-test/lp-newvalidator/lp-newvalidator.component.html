@@ -1,0 +1,525 @@
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
+<div class="text-label">LP Validator</div>
+<mat-horizontal-stepper labelPosition="bottom" [linear]="true" #stepper
+  [selectedIndex]="selectedStepperIndex" (selectionChange)="selectionChange($event)">
+  <mat-step label="Import CSV" completed="false" editable="false">
+    <!-- <input type="file" (change)="onFileChange($event)"/>
+    <br> -->
+    <!-- fxLayoutAlign="space-around space-between center" -->
+    <div class="w-100 bg-white" style="padding: 3em 3em;">
+        <form [formGroup]="form">
+            <div *ngIf="fileName?.length >= 0">
+            <div
+                class="uploaded_file w-100"
+                fxLayout="column"
+                fxLayoutAlign="space-around center"
+                appDragDrop
+                (fileDropped)="onFileChange($event)"
+            >
+                <img
+                src="assets/images/cloud.png"
+                height="50"
+                width="50"
+                style="margin: 1em;"
+                />
+                <div>
+                  {{'LPValidatorStep1.DragDropValidationProcess' | translate}}
+                </div>
+
+                <div
+                fxLayout="row"
+                fxLayoutAlign="space-around center"
+                class="w-100"
+                >
+                <button
+                    type="button"
+                    mat-raised-button
+                    color="accent"
+                    class="m-3"
+                    (click)="fileInput.click()"
+                >
+                  {{'LPValidatorStep1.SelectFileUpload' | translate}}
+                </button>
+                <input
+                    #fileInput
+                    type="file"
+                    (change)="onFileChange($event)"
+                    hidden
+                />
+                </div>
+                <!-- (change)="onFileChange($event)" -->
+
+                <div
+                *ngIf="
+                    fileName !== undefined &&
+                    fileName?.length > 0 &&
+                    isExcel === false
+                "
+                [style.color]="'red'"
+                >
+                  {{'LPValidatorStep1.NotExcel' | translate}}
+                </div>
+            </div>
+
+            <div>
+                {{'LPValidatorStep1.WhatUploadDocumentation' | translate}}
+                <a href="google.com">{{'LPValidatorStep1.HelpCenter' | translate}}</a>{{'LPValidatorStep1.Or' | translate}}
+                <a href="google.com">{{'LPValidatorStep1.Download' | translate}}</a>
+            </div>
+            </div>
+
+            <button
+            mat-raised-button
+            style="margin: 25px 10px 0 0;"
+            color="warn"
+            *ngIf="
+                fileName !== undefined &&
+                fileName?.length > 0 &&
+                isExcel === true
+            "
+            (click)="removeUpload()"
+            >
+              {{'LPValidatorStep1.Remove' | translate}}
+            </button>
+        </form>
+
+
+    </div>
+    <!-- <button mat-raised-button color="accent" (click)="nextInfterList($event)">Next</button> -->
+  </mat-step>
+  <br>
+  <mat-step label="Infer List Page" state="text_snippet" completed="false" editable="false" >
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="pb-3">
+      <h3 class="text-dark font-weight-bold my-1 mr-5">
+        {{'LPValidatorStep23.Selected' | translate}}: {{ nbBoxChecked2K }} / {{ nbProducts2K }}
+      </h3>
+
+            <a mat-list-item style="cursor: pointer;" (click)="tableOptionsProduct()">
+                <mat-icon aria-hidden="false" aria-label="settings icon">settings_suggest</mat-icon>
+                <span style="font-size: 1em;" class="menu-text">{{'LPValidatorStep23.TableOption' | translate}} </span>
+            </a>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort matSortDisableClear>
+        <!-- First column -->
+        <ng-container matColumnDef="number">
+            <th mat-header-cell *matHeaderCellDef [ngClass]="{'no-border-column': !toggleCheckedSearchMasq}">
+              <div class="resizable-div"></div>
+              <div layout-align="center center center" [ngClass]="{
+                'column-name':toggleChecked ,
+                'column-white': !toggleChecked
+              }"  style="display: flex" [ngStyle]="!toggleCheckedSearchMasq && {'position': 'relative', 'bottom': '3px'}">
+                <span style="margin: auto">#</span></div>
+              <div class="hide-div-number" *ngIf="toggleCheckedSearchMasq"></div>
+                <!-- <div class="shearch-case" style="height: 3em; visibility: hidden; min-width: 0">
+                    <i class="fas fa-search"></i>
+                    <input matInput type="search" placeholder="Smart Query or Regex ready"
+                    autocomplete="off">
+                  </div> -->
+            </th>
+
+
+          <td mat-cell [class.odd]="odd && toggleCheckedAlternance" [class.even]="even && toggleCheckedAlternance"
+              *matCellDef="let row; let indexRow = index;  let odd= odd; let even = even" >
+            {{ indexRow + 1 }}
+          </td>
+
+
+        </ng-container>
+      <!-- Column with the selection buttons -->
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef [ngClass]="{'no-border-column': !toggleCheckedSearchMasq}">
+              <div class="resizable-div"></div>
+
+                <div _ngcontent-qbt-c446="" [ngClass]="{
+                          'column-name':toggleChecked ,
+                          'column-white': !toggleChecked
+                          }" [ngStyle]="!toggleCheckedSearchMasq && {'position': 'relative', 'bottom': '3px'}">
+                          <i class="fas fa-sort" *ngIf="toggleCheckedSearchMasq"></i>
+                          <div class="checkbox-general" *ngIf="!toggleCheckedSearchMasq" style="padding: 0">
+                            <mat-checkbox color="accent"  [checked]="allChecked"
+                               (change)="allCheckChange($event.checked)"></mat-checkbox>
+                       </div>
+                      </div>
+                      <!--nada checkbox en general on va changer de place-->
+                      <div class="checkbox-general" *ngIf="toggleCheckedSearchMasq">
+                        <mat-checkbox color="accent"  [checked]="allChecked"
+                           (change)="allCheckChange($event.checked)"></mat-checkbox>
+            </div>
+            </th>
+            <td mat-cell [class.odd]="odd && toggleCheckedAlternance" [class.even] = "even && toggleCheckedAlternance"
+                *matCellDef="let product; let odd = odd; let indexRow = index; let even = even">
+                <mat-checkbox
+                    [checked]="product.selected"
+                    (change)="selectChange(product, $event.checked, indexRow)">
+                </mat-checkbox>
+
+            </td>
+        </ng-container>
+        <ng-container *ngFor="let coldata of columns, let i = index" [matColumnDef]="coldata.name">
+            <th  mat-header-cell *matHeaderCellDef [ngClass]="{'no-border-column': !toggleCheckedSearchMasq}">
+                <div class="resizable-div">
+                    <div class="column-head" [id]="i+'columnproduct'">
+                      <div  [ngClass]="{
+                        'column-name':toggleChecked ,
+                        'column-white': !toggleChecked
+                        }" tabindex="0" (click)="columnSort()" (focusout)="classArrows = 'arrows-container'"
+                            [ngStyle]="!toggleCheckedSearchMasq && {'position': 'relative', 'bottom': '3px'}">
+
+                          {{coldata.display}}
+
+                        <div [ngClass]="classArrows" >
+                          <img class="arrow arrow-up" src="assets/images/arrow-up.png" matSortDirection="asc">
+                          <img class="arrow arrow-down" src="assets/images/arrow-down.png" matSortDirection="desc">
+                        </div>
+                      </div>
+                      <div [ngClass]="{
+                        'column-name':toggleChecked ,
+                        'column-white': !toggleChecked
+                        }" class="drag_n_drop  pr-3" (click)="getWidthProduct(i)" style="cursor: col-resize; width: 10px"
+                           (dblclick)="doubleClick(i)" (mousedown)="onMouseDownResize(i, $event)" cdkDragHandle
+                           [ngStyle]="!toggleCheckedSearchMasq && {'position': 'relative', 'bottom': '3px'}">
+                      </div>
+                    </div>
+                    <div *ngIf="toggleCheckedSearchMasq" class="search-case" style="height: 4em">
+                        <!-- <i class="fas fa-search"></i>
+                          <mat-form-field class="example-form-field"> -->
+                        <div class="query-box">
+                          <i class="fas fa-search"></i>
+                          <input class="input-query" type="search" style="outline: 0; width: 15em" placeholder=" Smart Query or Regex ready..."
+                                   autocomplete="off">
+                        </div>
+                        <!-- </mat-form-field> -->
+                    </div>
+                    <div *ngIf="!toggleCheckedSearchMasq" class="search-case" style="height: 0; visibility: hidden; margin:0 1.5em 0 0; display: flex">
+                        <i class="fas fa-search"></i>
+                        <div style="width: 15em"></div>
+                    </div>
+                </div>
+            </th>
+            <td mat-cell [class.odd]="odd && toggleCheckedAlternance" [class.even] = "even && toggleCheckedAlternance"
+                *matCellDef="let product; let even = even; let index = index; let odd = odd" >
+                <span [id]="i+'product'+index" *ngIf="coldata.name!=='ID' && product[coldata.value]"> {{product[coldata.value]}} </span>
+                <span [id]="i+'product'+index" *ngIf="coldata.name!=='ID' && !product[coldata.value]"> ... </span>
+                <a [id]="i+'product'+index" *ngIf="coldata.name==='ID'" href="#" target="_blank"> {{product[coldata.value]}} </a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+    </table>
+    <br>
+    <div style="margin: 1em; background-color: #A1A2B5;"></div>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayoutAlign="end center" class="w-100">
+        <mat-label class="pg-text">{{'LPValidatorStep23.ItemsPage' | translate}}</mat-label>
+
+        <select class="pg-select-option" name="csvTablePerPage" [(ngModel)]="csvTablePerPage" (ngModelChange)="goToFirstPage('infer')" >
+          <option *ngFor="let iteam of iteams" [value]="iteam.value">
+            {{iteam.value}}
+          </option>
+        </select>
+
+        <mat-label class="pg-text">{{'LPValidatorStep23.Showing' | translate}} {{pageStart2k}}-{{pageEnd2k}} {{'LPValidatorStep23.Of' | translate}} {{total2k}}</mat-label>
+
+        <button id="btn-arrow-double-left"
+        class="pgbtn btn btn-icon btn-primary-o02 btn-hover-primary-o02 btn-sm"
+        [disabled]="pageStart === 1"
+        (click)="goToFirstPage('infer');arrowSwitchColor(false, 'double-left')"
+        (mouseover)="arrowSwitchColor(true, 'double-left')"
+        (mouseleave)="arrowSwitchColor(false, 'double-left')">
+          <div>
+            <img id="img-arrow-double-left"
+            class="arrow arrow-double-left page-arrow-blue"
+            src="assets/images/double-left-skinny-b.png"
+            width="30">
+          </div>
+        </button>
+
+        <button id="btn-arrow-left"
+        class="pgbtn btn btn-icon btn-primary-o02 btn-hover-primary-o02 btn-sm"
+        [disabled]="pageStart === 1"
+        (click)="pageDown('infer');arrowSwitchColor(true, 'left')"
+        (mouseover)="arrowSwitchColor(true, 'left')"
+        (mouseleave)="arrowSwitchColor(false, 'left')">
+          <div>
+            <img id="img-arrow-left"
+            class="arrow arrow-left page-arrow-blue"
+            src="assets/images/left-skinny-b.png"
+            width="30">
+          </div>
+        </button>
+
+        <button id="btn-arrow-right"
+        class="pgbtn btn btn-icon btn-primary-o02 btn-hover-primary-o02 btn-sm"
+        [disabled]="csvTablePage === getLastPage('infer')"
+        (click)="pageUp('infer');arrowSwitchColor(true, 'right')"
+        (mouseover)="arrowSwitchColor(true, 'right')"
+        (mouseleave)="arrowSwitchColor(false, 'right')">
+          <div>
+            <img id="img-arrow-right"
+            class="arrow arrow-right page-arrow-blue"
+            src="assets/images/right-skinny-b.png"
+            width="30">
+          </div>
+        </button>
+
+        <button id="btn-arrow-double-right"
+        class="pgbtn btn btn-icon btn-primary-o02 btn-hover-primary-o02 btn-sm"
+        [disabled]="csvTablePage === getLastPage('infer')"
+        (click)="goToLastPage('infer');arrowSwitchColor(false, 'double-right')"
+        (mouseover)="arrowSwitchColor(true, 'double-right')"
+        (mouseleave)="arrowSwitchColor(false, 'double-right')">
+          <div>
+            <img id="img-arrow-double-right"
+            class="arrow arrow-double-right page-arrow-blue"
+            src="assets/images/double-right-skinny-b.png"
+            width="30">
+          </div>
+        </button>
+
+      </div>
+    </div>
+    <br>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+
+      <div fxLayoutAlign="end center" class="w-100">
+        <button type="button" mat-raised-button color="accent" class="m-3" (click)="openSettingTable()">
+          <mat-icon aria-hidden="false" aria-label="settings icon">settings_suggest</mat-icon>
+          {{'LPValidatorStep23.Setting' | translate}}
+        </button>
+
+        <button mat-raised-button color="accent" (click)="uploadFile()" (click)="nextInfterList($event)">{{'LPValidatorStep23.InferListPage' | translate}}</button>
+      </div>
+      <!-- <mat-form-field>
+          <mat-label>Page</mat-label>
+          <input name="csvTablePage" [(ngModel)]="csvTablePage" type="number" matInput placeholder="Page" value="1">
+      </mat-form-field> -->
+      <!-- <mat-form-field>
+          <mat-label>Items per page</mat-label>
+          <input name="csvTablePerPage" [(ngModel)]="csvTablePerPage" type="number" matInput placeholder="Items per page" value="10">
+      </mat-form-field> -->
+      <!-- <button mat-raised-button color="primary" (click)="updateCsvTablePagination()">Go to page (CSV)</button>
+      <button mat-raised-button color="primary" (click)="uploadFile()" (click)="nextInfterList($event)">Init</button>
+      <div> Stats:{{csvstats | json}} </div>
+      <br/>
+      <br/> -->
+    </div>
+  </mat-step>
+    <mat-step label="Check Relevancy" state="text_snippet" completed="false" editable="false" >
+      <!--
+      <div> Proof that UI is not hanging : <mat-spinner></mat-spinner></div>
+      -->
+      <br/>
+      <!-- <mat-checkbox
+      [checked]="showInferTable"
+      (change)="changeShowInferTable($event.checked)">
+      Show inferlist
+      </mat-checkbox> -->
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="pb-3">
+          <h3 class="text-dark font-weight-bold my-1 mr-5">
+            {{'LPValidatorStep23.Selected' | translate}}: {{ nbInferBoxChecked2k }} / {{ nbInferLine2k }}
+          </h3>
+          <a mat-list-item style="cursor: pointer;" (click)="tableOptionsInferData()">
+            <mat-icon aria-hidden="false" aria-label="settings icon">settings_suggest</mat-icon>
+            <span style="font-size: 1em;" class="menu-text">{{'LPValidatorStep23.TableOption' | translate}} </span>
+        </a>
+      </div>
+
+      <table *ngIf="showInferTable" mat-table [dataSource]="inferlistData">
+        <ng-container matColumnDef="number">
+              <th mat-header-cell *matHeaderCellDef [ngClass]="{'no-border-column': !toggleCheckedSearchMasq}">
+                  <div layout-align="center center center" [ngClass]="{
+                  'column-name':toggleChecked ,
+                  'column-white': !toggleChecked
+                  }" style="display: flex" [ngStyle]="!toggleCheckedSearchMasq && {'position': 'relative', 'bottom': '3px'}">
+                    <span style="margin: auto">#</span></div>
+                  <div class="hide-div-number" *ngIf="toggleCheckedSearchMasq"></div>
+              </th>
+
+            <td mat-cell [class.odd]="odd && toggleCheckedAlternance" [class.even]="even && toggleCheckedAlternance"
+            *matCellDef="let row; let indexRow = index; let even = even; let odd = odd">
+            {{ indexRow + 1 }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef [ngClass]="{'no-border-column': !toggleCheckedSearchMasq}">
+                <div layout-align="center center center" _ngcontent-qbt-c446="" [ngClass]="{
+                  'column-name':toggleChecked ,
+                  'column-white': !toggleChecked
+                }" [ngStyle]="!toggleCheckedSearchMasq && {'position': 'relative', 'bottom': '3px'}">
+                  <i class="fas fa-sort" *ngIf="toggleCheckedSearchMasq"></i>
+                  <div class="checkbox-general" *ngIf="!toggleCheckedSearchMasq" style="padding: 0">
+                    <mat-checkbox color="accent"  [checked]="allInferBoxChecked"
+                                  (change)="allInferBoxesCheck($event.checked)"></mat-checkbox>
+                  </div>
+              </div>
+              <div class="checkbox-general" *ngIf="toggleCheckedSearchMasq">
+                  <mat-checkbox color="accent"  [checked]="allInferBoxChecked"
+                  (change)="allInferBoxesCheck($event.checked)"></mat-checkbox>
+                </div>
+              </th>
+              <td mat-cell [class.odd]="odd && toggleCheckedAlternance" [class.even]="even && toggleCheckedAlternance"
+              *matCellDef="let inferdata; let even = even; let odd = odd, let indexRow = index">
+                <mat-checkbox
+                  [checked]="inferdata.selected"
+                  (change)="selectInferdataChange(inferdata, $event.checked, indexRow)">
+                </mat-checkbox>
+
+              </td>
+      </ng-container>
+      <ng-container *ngFor="let infercoldata of inferlistColumns; let i = index" [matColumnDef]="infercoldata.name">
+          <th mat-header-cell *matHeaderCellDef [ngClass]="{'no-border-column': !toggleCheckedSearchMasq}">
+              <div class="resizable-div">
+                <div class="column-head" [id]="i+'columninfer'">
+                  <div [ngClass]="{
+                    'column-name':toggleChecked,
+                    'column-white': !toggleChecked
+                  }" tabindex="0" (click)="columnSort()" (focusout)="classArrows = 'arrows-container'"
+                       [ngStyle]="!toggleCheckedSearchMasq && {'position': 'relative', 'bottom': '3px'}">
+
+                      {{infercoldata.display}}
+
+                    <div [ngClass]="classArrows">
+                      <img class="arrow arrow-up" src="assets/images/arrow-up.png" style="max-height: 11px">
+                      <img class="arrow arrow-down" src="assets/images/arrow-down.png" style="max-height: 11px">
+                    </div>
+                  </div>
+                  <div [ngClass]="{
+                    'column-name':toggleChecked ,
+                    'column-white': !toggleChecked
+                  }" class="drag_n_drop  pr-3" (click)="getWidthInfer(i)" style="cursor: col-resize; width: 10px; "
+                        (dblclick)="doubleClick(i)" (mousedown)="onMouseDownResize(i, $event)" cdkDragHandle
+                       [ngStyle]="!toggleCheckedSearchMasq && {'position': 'relative', 'bottom': '3px'}">
+                  </div>
+                </div>
+                <div *ngIf="toggleCheckedSearchMasq" class="search-case" style="height: 4em;">
+                    <div>
+                        <i class="fas fa-search"></i>
+                        <input type="search" style="outline: 0; width: 15em" placeholder=" Smart Query or Regex ready..."
+                                autocomplete="off">
+                    </div>
+                </div>
+                <div *ngIf="!toggleCheckedSearchMasq" class="search-case" style="height: 0; visibility: hidden; margin:0 1.5em 0 0; display: flex">
+                  <i class="fas fa-search"></i>
+                  <div style="width: 15em"></div>
+                </div>
+              </div>
+          </th>
+          <td mat-cell [class.odd]="odd && toggleCheckedAlternance" [class.even]="even && toggleCheckedAlternance"
+              *matCellDef="let inferdata; let index = index; let even = even; let odd = odd">
+                  <span [id]="i+'infer'+index" *ngIf="inferdata[infercoldata.value]">
+                    {{inferdata[infercoldata.value]}}
+                  </span>
+            </td>
+          </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="inferlistColumnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let myRowData; columns: inferlistColumnsToDisplay"></tr>
+
+
+      </table>
+      <div style="margin: 1em; background-color: #A1A2B5;"></div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 1em 3em;">
+        <div fxLayoutAlign="end center" class="w-100">
+          <mat-label class="pg-text">{{'LPValidatorStep23.ItemsPage' | translate}}</mat-label>
+
+          <select class="pg-select-option" name="perpage" [(ngModel)]="perpage" (ngModelChange)="goToFirstPage('checkR')" >
+            <option *ngFor="let iteam of iteams" [ngValue]="iteam.value">
+              {{iteam.value}}
+            </option>
+          </select>
+          <mat-label class="pg-text">{{'LPValidatorStep23.Showing' | translate}} {{pageStart2k}}-{{pageEnd2k}} {{'LPValidatorStep23.Of' | translate}} {{total2k}}</mat-label>
+
+
+          <button id="btn-arrow-double-left2"
+          class="pgbtn btn btn-icon btn-primary-o02 btn-hover-primary-o02 btn-sm"
+          [disabled]="page === 1"
+          (click)="goToFirstPage('checkR');arrowSwitchColor2(false, 'double-left')"
+          (mouseover)="arrowSwitchColor2(true, 'double-left')"
+          (mouseleave)="arrowSwitchColor2(false, 'double-left')">
+            <div>
+              <img id="img-arrow-double-left2"
+              class="arrow arrow-double-left page-arrow-blue"
+              src="assets/images/double-left-skinny-b.png"
+              width="30">
+            </div>
+          </button>
+
+          <button id="btn-arrow-left2"
+          class="pgbtn btn btn-icon btn-primary-o02 btn-hover-primary-o02 btn-sm"
+          [disabled]="page === 1"
+          (click)="pageDown('checkR');arrowSwitchColor2(true, 'left')"
+          (mouseover)="arrowSwitchColor2(true, 'left')"
+          (mouseleave)="arrowSwitchColor2(false, 'left')">
+            <div>
+              <img id="img-arrow-left2"
+              class="arrow arrow-left page-arrow-blue"
+              src="assets/images/left-skinny-b.png"
+              width="30">
+            </div>
+          </button>
+
+          <button id="btn-arrow-right2"
+          class="pgbtn btn btn-icon btn-primary-o02 btn-hover-primary-o02 btn-sm"
+          [disabled]="page === getLastPage('checkR')"
+          (click)="pageUp('checkR');arrowSwitchColor2(true, 'right')"
+          (mouseover)="arrowSwitchColor2(true, 'right')"
+          (mouseleave)="arrowSwitchColor2(false, 'right')">
+            <div>
+              <img id="img-arrow-right2"
+              class="arrow arrow-right page-arrow-blue"
+              src="assets/images/right-skinny-b.png"
+              width="30">
+            </div>
+          </button>
+
+          <button id="btn-arrow-double-right2"
+          class="pgbtn btn btn-icon btn-primary-o02 btn-hover-primary-o02 btn-sm"
+          [disabled]="page === getLastPage('checkR')"
+          (click)="goToLastPage('checkR');arrowSwitchColor2(false, 'double-right')"
+          (mouseover)="arrowSwitchColor2(true, 'double-right')"
+          (mouseleave)="arrowSwitchColor2(false, 'double-right')">
+            <div>
+              <img id="img-arrow-double-right2"
+              class="arrow arrow-double-right page-arrow-blue"
+              src="assets/images/double-right-skinny-b.png"
+              width="30">
+            </div>
+          </button>
+        </div>
+      </div>
+      <!-- <mat-form-field>
+        <mat-label>Page</mat-label>
+        <input name="page" [(ngModel)]="page" type="number" matInput placeholder="Page" value="1">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Items per page</mat-label>
+        <input name="perpage" [(ngModel)]="perpage" type="number" matInput placeholder="Items per page" value="10">
+      </mat-form-field> -->
+      <!--
+        <button mat-raised-button color="primary" (click)="createInferList(false)">Go to page (Inferlist without worker)</button>
+      -->
+      <!-- <button mat-raised-button color="primary" (click)="createInferList()">Go to page (Inferlist)</button> -->
+      <div fxLayout="row" fxLayoutAlign="space-between center" style="padding: 1em 3em;">
+
+        <div fxLayoutAlign="end center" class="w-100">
+          <button type="button" mat-raised-button color="accent" (click)="postCurrent()" class="m-3">
+            POST ONE
+          </button>
+
+          <button mat-raised-button color="accent" (click)="postAll()" (click)="nextInfterList($event)">POST ALL</button>
+
+        </div>
+        <!-- <button mat-raised-button color="primary" (click)="postCurrent()">POST ONE</button>
+        <button mat-raised-button color="primary" (click)="postAll()">POST ALL</button> -->
+
+      </div>
+      <!-- <button mat-raised-button color="primary" (click)="postCurrent()">POST ONE</button>
+      <button mat-raised-button color="primary" (click)="postAll()">POST ALL</button> -->
+      <div *ngIf="uploading"> Chagement en cours... </div>
+      <div> Stats:{{inferliststats | json}} </div>
+      <div> POSTS :{{postState | json}} </div>
+    </mat-step>
+  </mat-horizontal-stepper>

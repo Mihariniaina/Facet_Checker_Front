@@ -1,0 +1,390 @@
+<form [formGroup]="form" name="new-project-form">
+  <h1 class="new-project-title">{{'NewProject.NewProject' | translate}}</h1>
+  <mat-card tabindex="-1" class="w-100" style="padding: 45px 45px 0 45px;">
+    <mat-card-header>
+      <mat-card-title>{{'NewProject.BasicInfo' | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="w-100 pb-3">
+        <div class="w-100 my-5" fxLayout="row">
+          <div mat-form-field class="form-group w-50 mr-5">
+            <label>{{'NewProject.Name' | translate}}</label>
+            <input
+              [ngClass]="{'err': (form.controls['name_project'].touched &&
+              form.controls['name_project'].errors?.required) || form.controls['name_project'].errors?.maxLength || form.controls['name_project'].errors?.projectName}"
+              formControlName="name_project" autocomplete="off" class="form-control"
+              placeholder="{{'NewProject.Example' | translate}}"
+              name="project-name"
+              maxlength="24" id="name-field" (keydown)="checkNameLength($event)" 
+              (keyup)="countNameLength()"/>
+
+            <div
+              *ngIf="(form.controls['name_project'].touched &&
+              form.controls['name_project'].errors?.required) || form.controls['name_project'].errors?.maxLength || form.controls['name_project'].errors?.projectName; else showInstrName">
+              <span class="form-text text-muted text-error" mat-error *ngIf="
+                form.controls['name_project'].touched &&
+                form.controls['name_project'].errors?.required
+              ">
+              {{'NewProject.IsRequired' | translate}}
+              </span>
+              <span class="form-text text-muted text-error" mat-error
+                    *ngIf="form.controls['name_project'].touched && form.controls['name_project'].errors?.maxLength">
+              {{'NewProject.MaxLength' | translate}}
+              </span>
+              <span class="form-text text-muted text-error" mat-error
+                    *ngIf="form.controls['name_project'].errors?.projectName">
+              {{'NewProject.NameTaken' | translate}}
+              </span>
+            </div>
+              <ng-template #showInstrName>
+                <div class="mic-row">  
+                  <div class="form-text text-muted col-sm" id="descr-name-field">
+                    {{'NewProject.GiveNameProject' | translate}}
+                  </div>
+                  <div class="count-name-length text-muted col-sm-0">
+                    <span id="count-name">0</span>
+                    <span>/ 24</span>
+                  </div>
+                </div>
+              </ng-template>
+          </div>
+
+          <div mat-form-field class="form-group w-50 mr-5">
+            <label>{{'NewProject.Domain' | translate}}</label>
+            <input
+              [ngClass]="{'err': (form.controls['domain_project'].touched &&
+              form.controls['domain_project'].errors?.required) || form.controls['domain_project'].errors?.domain}"
+              formControlName="domain_project" autocomplete="off" class="form-control"
+              placeholder="{{'NewProject.DomainExample' | translate}}" />
+            <div
+              *ngIf="(form.controls['domain_project'].touched &&
+              form.controls['domain_project'].errors?.required) || form.controls['domain_project'].errors?.domain; else showInstrDomain">
+              <span class="form-text text-muted text-error" mat-error *ngIf="
+                form.controls['domain_project'].touched &&
+                form.controls['domain_project'].errors?.required
+              ">
+                {{'NewProject.DomainField' | translate}}
+              </span>
+              <span class="form-text text-muted text-error" mat-error
+                  *ngIf="form.controls['domain_project'].errors?.domain">
+                {{'NewProject.DomainInvalid' | translate}}
+              </span>
+            </div>
+            <ng-template #showInstrDomain>
+              <span class="form-text text-muted">{{'NewProject.FillFieldDomain' | translate}}</span>
+            </ng-template>
+          </div>
+        </div>
+
+        <div class="w-100 my-5" fxLayout="row">
+          <div mat-form-field class="form-group w-50 mr-5">
+            <label>{{'NewProject.Country' | translate}}</label>
+            <input [ngClass]="{'err': (form.get('country_project')?.touched &&
+            form.get('country_project')?.errors?.required) || form.get('country_project')?.max}"
+                   formControlName="country_project" [matAutocomplete]="autoComplete" class="form-control" />
+
+            <mat-autocomplete #autoComplete="matAutocomplete">
+              <mat-option *ngFor="let contry of filteredCounrty | async" [value]="contry.name">
+                {{ contry.name }}
+              </mat-option>
+            </mat-autocomplete>
+
+            <div
+              *ngIf="(form.get('country_project')?.touched &&
+            form.get('country_project')?.errors?.required) || form.get('country_project')?.max; else showInstrCountry">
+            <span class="form-text text-muted text-error" mat-error *ngIf="
+              form.get('country_project')?.touched &&
+              form.get('country_project')?.errors?.required
+            ">
+              {{'NewProject.CountryField' | translate}}
+            </span>
+              <span class="form-text text-muted text-error" mat-error
+                    *ngIf="form.get('country_project')?.max">
+              Maximum length name is 40 words
+            </span>
+            </div>
+            <ng-template #showInstrCountry>
+              <span class="form-text text-muted">{{'NewProject.CountryTarget' | translate}}</span>
+            </ng-template>
+          </div>
+
+          <div mat-form-field class="form-group w-50 mr-5">
+            <label>{{'NewProject.Language' | translate}}</label>
+            <mat-select [ngClass]="{'err': (form.get('language_project')?.touched &&
+          form.get('language_project')?.errors?.required)}" formControlName="language_project"
+                        class="form-control" placeholder="...">
+              <mat-option *ngFor="let language of languages" [value]="language.code">
+                {{ language.name }}
+              </mat-option>
+            </mat-select>
+
+            <div *ngIf="(form.get('language_project')?.touched &&
+            form.get('language_project')?.errors?.required); else showInstrLang">
+            <span class="form-text text-muted text-error" mat-error *ngIf="
+            form.get('language_project')?.touched &&
+            form.get('language_project')?.errors?.required
+          ">{{'NewProject.LanguageDield' | translate}}
+            </span>
+            </div>
+            <ng-template #showInstrLang>
+              <span class="form-text text-muted">{{'NewProject.LanguageWebsite' | translate}}</span>
+            </ng-template>
+
+          </div>
+        </div>
+
+        <div class="form-group w-100 my-5" fxLayout="row">
+          <label class="col-form-label text-lg-left">
+            HTTPS
+          </label>
+          <div class="col-lg-9 col-xl-4">
+            <span class="switch switch-icon">
+              <label><input type="checkbox"
+                            formControlName="protocol_project"
+                            class="ng-valid ng-dirty ng-touched">
+                <span></span>
+              </label>
+            </span>
+            <!-- <div class="form-text text-muted"> off/on </div> -->
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card tabindex="-1" class="w-100" style="padding: 45px 45px 0 45px;">
+    <mat-card-header>
+      <mat-card-title>{{'NewProject.Picture' | translate}}</mat-card-title>
+      <div>
+        <button [ngClass]="classButtonSquare" mat-button (click)="onImageTypeChange('square')">
+        <span>
+          {{'NewProject.SquaredImage' | translate}}
+        </span>
+        </button>
+        <button [ngClass]="classButtonPicto" mat-button (click)="onImageTypeChange('picto')">
+        <span>
+          {{'NewProject.Picto' | translate}}
+        </span>
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="w-100 pb-3">
+        <div *ngIf="imageType === 'square'">
+          <div mat-form-field class="form-group my-3">
+            <div class="w-100" fxLayoutAlign="space-around center">
+              <label class="upload-label">{{'NewProject.UploadSquaredImage' | translate}}</label>
+            </div>
+            <div class="uploaded_file w-100"
+                 fxLayout="column"
+                 fxLayoutAlign="space-around center"
+                 appDragDrop
+                 (fileDropped)="uploadSquared($event)">
+              <i *ngIf="!image_project_Landscape.value && !image_project_Squared.value"
+                  class="fas fa-cloud-upload-alt"
+                  style="font-size: 500%; margin: 0.5em"></i>
+              <!--<i *ngIf="image_project_Landscape.value || image_project_Squared.value"
+                 class="fas fa-check-circle"
+                 style="font-size: 500%; margin: 0.5em; color: green"></i>-->
+              <div id="img-uploaded"
+                   style="height: 0; width: auto; margin: 0.5em"></div>
+              <div *ngIf="image_project_Landscape.value || image_project_Squared.value"
+                   class="drag-drop-message">
+                {{'NewProject.ImageUploaded' | translate}}
+              </div>
+              <div *ngIf="!image_project_Landscape.value && !image_project_Squared.value"
+                   class="drag-drop-message">
+                {{'NewProject.DragDrop' | translate}}
+              </div>
+              <div fxLayout="row"
+                   fxLayoutAlign="space-around center"
+                   class="w-100">
+                <button type="button"
+                        mat-raised-button
+                        color="accent"
+                        class="m-3 upload-button"
+                        (click)="fileInput.click()">
+                  <span *ngIf="!image_project_Landscape.value && !image_project_Squared.value">
+                    {{'NewProject.SelectFilUpload' | translate}}
+                  </span>
+                  <span *ngIf="image_project_Landscape.value || image_project_Squared.value">
+                    {{'NewProject.ChooseFile' | translate}}
+                  </span>
+                </button>
+                <input #fileInput
+                       type="file"
+                       (change)="uploadSquared($event)"
+                       hidden/>
+              </div>
+            </div>
+            <div>
+              <span class="form-text text-muted">{{'NewProject.ChooseSquareIllustration' | translate}}</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="imageType === 'picto'">
+          <div class="w-100" fxLayout="column" fxLayoutAlign="center center"
+               formGroupName="letter_thumbnails_project">
+            <h3 color="accent" class="text-muted">
+              {{'NewProject.CreatePicto' | translate}}
+            </h3>
+            <div class="letter-add-edit" [style.background]="background" [style.color]="color">
+              {{ letter?.value | uppercase }}
+            </div>
+            <div mat-form-field class="form-group my-5 w-100">
+              <input
+                [ngClass]="{'err': letter?.touched && letter?.errors?.required || letter?.errors?.uppercase}"
+                formControlName="letter" maxlength="1" autocomplete="off" class="form-control" />
+
+              <div
+                *ngIf="(letter.touched && letter.errors?.required) || letter.errors?.uppercase || letter.errors?.invalidThunder; else showInstrLogo">
+            <span class="form-text text-muted text-error" mat-error
+                  *ngIf="letter.touched && letter.errors?.required">
+              {{'NewProject.LetterField' | translate}}
+            </span>
+                <span class="form-text text-muted text-error" mat-error
+                      *ngIf="letter.errors?.invalidThunder">
+              {{'NewProject.LetterInvalid' | translate}}
+            </span>
+              </div>
+              <ng-template #showInstrLogo>
+                <span class="form-text text-muted">{{'NewProject.IllustratePicto' | translate}}</span>
+              </ng-template>
+
+            </div>
+            <div class="w-100" fxLayout="row" fxLayoutAlign="center">
+              <div mat-form-field class="form-group w-50 mr-5">
+                <input type="color" formControlName="color" class="form-control" />
+                <span class="form-text text-muted">{{'NewProject.LetterColor' | translate}}</span>
+              </div>
+              <!-- (click)="setBackground(ref2.value)" formControlName="background" -->
+              <div mat-form-field class="form-group mr-5 w-50">
+                <input type="color" formControlName="background" class="form-control" />
+                <span class="form-text text-muted">{{'NewProject.BackgroundColor' | translate}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card tabindex="-1" class="w-100" style="padding: 45px 45px 0 45px;">
+    <mat-card-header>
+      <mat-card-title>{{'NewProject.Inputs' | translate}}</mat-card-title>
+      <div>
+        <button [ngClass]="classButtonCatalog" mat-button (click)="onFileTypeChange('catalog')">
+        <span>
+          {{'NewProject.CatalogItems' | translate}}
+        </span>
+        </button>
+        <button [ngClass]="classButtonBunch" mat-button (click)="onFileTypeChange('bunch')">
+        <span>
+          {{'NewProject.BunchList' | translate}}
+        </span>
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="w-100 pb-3">
+        <div *ngIf="fileType==='catalog'">
+          <div mat-form-field class="form-group my-3">
+            <div class="w-100" fxLayoutAlign="space-around center">
+              <label class="upload-label">{{'NewProject.UploadCatalog' | translate}}</label>
+            </div>
+            <div class="uploaded_file w-100"
+                 fxLayout="column"
+                 fxLayoutAlign="space-around center"
+                 appDragDrop>
+                 <!--(fileDropped)="uploadSquared($event)"-->
+              <i class="fas fa-cloud-upload-alt"
+                 style="font-size: 500%; margin: 0.5em"></i>
+              <div class="drag-drop-message">
+                {{'NewProject.DragDrop' | translate}}
+              </div>
+              <div fxLayout="row"
+                   fxLayoutAlign="space-around center"
+                   class="w-100">
+                <button type="button"
+                        mat-raised-button
+                        color="accent"
+                        class="m-3 upload-button"
+                        (click)="fileInput.click()">
+                  <span>
+                    {{'NewProject.SelectFileUpload' | translate}}
+                  </span>
+                </button>
+                <input #fileInput
+                       type="file"
+                       hidden/>
+                      <!--(change)="uploadSquared($event)"-->
+              </div>
+            </div>
+            <div>
+              <span class="form-text text-muted">
+                {{'NewProject.WhatUploadDocumentation' | translate}}
+                <a href="google.com">{{'NewProject.HelpCenter' | translate}}</a>{{'NewProject.Or' | translate}}
+                <a href="google.com">{{'NewProject.Download' | translate}}</a>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="fileType==='bunch'">
+          <div mat-form-field class="form-group my-3">
+            <div class="w-100" fxLayoutAlign="space-around center">
+              <label class="upload-label">{{'NewProject.UploadBunch' | translate}}</label>
+            </div>
+            <div class="uploaded_file w-100"
+                 fxLayout="column"
+                 fxLayoutAlign="space-around center"
+                 appDragDrop>
+              <!--(fileDropped)="uploadSquared($event)"-->
+              <i class="fas fa-cloud-upload-alt"
+                 style="font-size: 500%; margin: 0.5em"></i>
+              <div class="drag-drop-message">
+                {{'NewProject.DragDrop' | translate}}
+              </div>
+              <div fxLayout="row"
+                   fxLayoutAlign="space-around center"
+                   class="w-100">
+                <button type="button"
+                        mat-raised-button
+                        color="accent"
+                        class="m-3 upload-button"
+                        (click)="fileInput.click()">
+                  <span>
+                    {{'NewProject.SelectFileUpload' | translate}}
+                  </span>
+                </button>
+                <input #fileInput
+                       type="file"
+                       hidden/>
+                <!--(change)="uploadSquared($event)"-->
+              </div>
+            </div>
+            <div>
+              <span class="form-text text-muted">
+                {{'NewProject.WhatUploadDocumentation' | translate}}
+                <a href="google.com">{{'NewProject.HelpCenter' | translate}}</a>{{'NewProject.Or' | translate}}
+                <a href="google.com">{{'NewProject.Download' | translate}}</a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div align="end" class="my-3" style="display: flex; justify-content: end">
+    <button *ngIf="isAddItem == false" class="add-project mx-3" mat-raised-button mat-dialog-close>
+      {{'NewProject.Close' | translate}}
+    </button>
+    <button class="add-project mx-3" mat-raised-button color="primary" (click)="onClickButton()">
+      <span *ngIf="isAddItem == false">{{'NewProject.Update' | translate}}</span>
+      <span *ngIf="isAddItem == true">{{'NewProject.Add' | translate}}</span>
+    </button>
+  </div>
+</form>
